@@ -289,5 +289,5 @@ for epoch_num in range(num_epochs):
                 if C.verbose:
                     print('Total loss decreased from {} to {}, saving weights'.format(best_loss,curr_loss))
                 best_loss = curr_loss
-                model_all.save_weights(C.model_path)
+                model_all.save_weights('frcnn_vgg.h5')
 print('Training complete, exiting.')
