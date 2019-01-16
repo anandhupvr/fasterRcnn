@@ -173,7 +173,7 @@ model_all.compile(optimizer='sgd', loss='mae')
 
 
 epoch_length = 1000
-num_epochs = 100
+num_epochs = 10
 iter_num = 0
 
 losses = np.zeros((epoch_length, 5))
@@ -285,8 +285,6 @@ for epoch_num in range(num_epochs):
 
             curr_loss = loss_rpn_cls + loss_rpn_regr + loss_class_cls + loss_class_regr
             iter_num = 0
-            start_time = time.time()
-
             if curr_loss < best_loss:
                 if C.verbose:
                     print('Total loss decreased from {} to {}, saving weights'.format(best_loss,curr_loss))
