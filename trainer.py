@@ -172,8 +172,8 @@ model_classifier.compile(optimizer=optimizer_classifier, loss=[losses.class_loss
 model_all.compile(optimizer='sgd', loss='mae')
 
 
-epoch_length = 10
-num_epochs = 10
+epoch_length = 1000
+num_epochs = 200
 iter_num = 0
 
 losses = np.zeros((epoch_length, 5))

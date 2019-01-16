@@ -1,2 +1,4 @@
 dataset/
 test.py
+*.h5
+*.pyc
