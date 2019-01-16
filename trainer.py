@@ -172,7 +172,7 @@ model_classifier.compile(optimizer=optimizer_classifier, loss=[losses.class_loss
 model_all.compile(optimizer='sgd', loss='mae')
 
 
-epoch_length = 1000
+epoch_length = 10
 num_epochs = 10
 iter_num = 0
 
@@ -281,7 +281,7 @@ for epoch_num in range(num_epochs):
                 print('Loss RPN regression: {}'.format(loss_rpn_regr))
                 print('Loss Detector classifier: {}'.format(loss_class_cls))
                 print('Loss Detector regression: {}'.format(loss_class_regr))
-                print('Elapsed time: {}'.format(time.time() - start_time))
+                # print('Elapsed time: {}'.format(time.time() - start_time))
 
             curr_loss = loss_rpn_cls + loss_rpn_regr + loss_class_cls + loss_class_regr
             iter_num = 0
