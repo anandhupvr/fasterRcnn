@@ -10,6 +10,7 @@ import tensorflow as tf
 from keras import backend as K
 from keras.optimizers import Adam, SGD, RMSprop
 from keras.layers import Flatten, Dense, Input, Conv2D, MaxPooling2D, Dropout, Concatenate
+from keras.callbacks import TensorBoard
 
 from keras.layers import GlobalAveragePooling2D, GlobalMaxPooling2D, TimeDistributed
 from keras.engine.topology import get_source_inputs
@@ -171,7 +172,6 @@ model_rpn.compile(optimizer=optimizer, loss=[losses.rpn_loss_cls(num_anchors), l
 model_classifier.compile(optimizer=optimizer_classifier, loss=[losses.class_loss_cls, losses.class_loss_regr(len(classes_count))], metrics={'dense_class_{}'.format(len(classes_count)): 'accuracy'})
 model_all.compile(optimizer='sgd', loss='mae')
 
-
 epoch_length = 1000
 num_epochs = 200
 iter_num = 0
@@ -184,6 +184,11 @@ best_loss = np.Inf
 
 class_mapping_inv = {v: k for k, v in class_mapping.items()}
 print('Starting training')
+
+tensorboard = TensorBoard(log_dir='./logs', histogram_freq=0,
+                        write_graph=True, write_images=True)
+
+tensorboard.set_model(model_all)
 
 vis = True
 for epoch_num in range(num_epochs):
@@ -203,6 +208,7 @@ for epoch_num in range(num_epochs):
         X, Y, img_data, debug_img, debug_num_pos = next(data_gen_train)
 
         loss_rpn = model_rpn.train_on_batch(X, Y)
+        tensorboard.on_epoch_end(epoch_num, named_logs(model_rpn, loss_rpn))
 
         P_rpn = model_rpn.predict_on_batch(X)
         R = utils.rpn_to_roi(P_rpn[0], P_rpn[1], C, K.image_dim_ordering(), use_regr=True, overlap_thresh=0.7, max_boxes=300)
@@ -251,7 +257,7 @@ for epoch_num in range(num_epochs):
 
 
         loss_class = model_classifier.train_on_batch([X, X2[:, sel_samples, :]], [Y1[:, sel_samples, :], Y2[:, sel_samples, :]])
-
+        tensorboard.on_epoch_end(epoch_num, named_logs(model_classifier, loss_class))
         losses[iter_num, 0] = loss_rpn[1]
         losses[iter_num, 1] = loss_rpn[2]
 
@@ -262,7 +268,7 @@ for epoch_num in range(num_epochs):
         iter_num += 1
 
         progbar.update(iter_num, [('rpn_cls', np.mean(losses[:iter_num, 0])), ('rpn_regr', np.mean(losses[:iter_num, 1])),
-                                  ('detector_cls', np.mean(losses[:iter_num, 2])), ('detector_regr', np.mean(losses[:iter_num, 3]))])
+                                  ('detector_cls', np.mean(losses[:iter_num, 2])), ('detector_regr', np.mean(losses[:iter_num, 3]))('epoch', epoch_num)])
 
         if iter_num == epoch_length:
             loss_rpn_cls = np.mean(losses[:, 0])
@@ -290,4 +296,5 @@ for epoch_num in range(num_epochs):
                     print('Total loss decreased from {} to {}, saving weights'.format(best_loss,curr_loss))
                 best_loss = curr_loss
                 model_all.save_weights('frcnn_vgg.h5')
+    tensorboard.on_train_end(None)
 print('Training complete, exiting.')
