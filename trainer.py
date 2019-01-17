@@ -185,8 +185,10 @@ best_loss = np.Inf
 class_mapping_inv = {v: k for k, v in class_mapping.items()}
 print('Starting training')
 
-tensorboard = TensorBoard(log_dir='./logs', histogram_freq=0,
-                        write_graph=True, write_images=True)
+tensorboard = TensorBoard(log_dir='./logs', histogram_freq=10,
+                        write_graph=True, write_images=True,
+                        embeddings_freq=10,
+                        embeddings_layer_names = ['embedding'])
 
 tensorboard.set_model(model_all)
 
