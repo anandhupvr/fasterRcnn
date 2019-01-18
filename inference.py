@@ -48,7 +48,7 @@ elif C.network == 'vgg':
 C.use_horizontal_flips = False
 C.use_vertical_flips = False
 C.rot_90 = False
-
+C.model_path = 'weights/frcnn_vgg.h5'
 # img_path = options.test_path
 
 img_path = 'test_images/'
@@ -140,9 +140,9 @@ model_classifier_only = Model([feature_map_input, roi_input], classifier)
 
 model_classifier = Model([feature_map_input, roi_input], classifier)
 
-print('Loading weights from {}'.format('frcnn_vgg.h5'))
-model_rpn.load_weights('frcnn_vgg.h5', by_name=True)
-model_classifier.load_weights('frcnn_vgg.h5', by_name=True)
+print('Loading weights from {}'.format(C.model_path))
+model_rpn.load_weights(C.model_path, by_name=True)
+model_classifier.load_weights(C.model_path, by_name=True)
 
 model_rpn.compile(optimizer='sgd', loss='mse')
 model_classifier.compile(optimizer='sgd', loss='mse')

@@ -35,7 +35,6 @@ train_path = ''
 horizontal_flips = True
 vertical_flips = True
 rot_90 = True
-
 train_imgs, classes_count, class_mapping = load.get_data("annotation.txt")
 class_mapping.update({'bg':1})
 
@@ -145,6 +144,18 @@ plt.imshow(img)
 plt.show()
 '''
 
+def write_log(callback, names, logs, batch_no):
+    for name, value in zip(names, logs):
+        summary = tf.Summary()
+        summary_value = summary.value.add()
+        summary_value.simple_value = value
+        summary_value.tag = name
+        callback.writer.add_summary(summary, batch_no)
+        callback.writer.flush()
+
+
+
+
 input_shape_img = (None, None, 3)
 
 img_input = Input(shape=input_shape_img)
@@ -185,18 +196,21 @@ best_loss = np.Inf
 class_mapping_inv = {v: k for k, v in class_mapping.items()}
 print('Starting training')
 
-tensorboard = TensorBoard(log_dir='./logs', histogram_freq=0,
-                        write_graph=True, write_images=True,
-                        embeddings_freq=0,
-                        embeddings_layer_names = ['embedding'])
+# tensorboard = TensorBoard(log_dir='./logs', histogram_freq=0,
+#                         write_graph=True, write_images=True,
+#                         embeddings_freq=0,
+#                         embeddings_layer_names = ['embedding'])
 
-tensorboard.set_model(model_all)
+# tensorboard.set_model(model_all)
 
 def named_logs(model, logs):
     result = {}
     for l in zip(model.metrics_names, logs):
         result[l[0]] = l[1]
     return result
+
+
+
 
 vis = True
 for epoch_num in range(num_epochs):

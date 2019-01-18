@@ -19,6 +19,7 @@ class LOAD:
 		class_mapping = {}
 
 		visualise = True
+		background = True
 
 		i = 1
 		
@@ -47,8 +48,8 @@ class LOAD:
 				#	---------------------x2,y2
 				# import pdb; pdb.set_trace()
 				(x1, y1, x2, y2) = line_split[1:5]
-				class_name = (line_split[5][2:-2])
-				filename = line_split[0][2:-1]
+				class_name = line_split[5].replace('\'','').replace(")","").strip()
+				filename = line_split[0].replace('\'','').replace('(','')
 
 
 				if class_name not in classes_count:
@@ -61,6 +62,8 @@ class LOAD:
 						print('Found class name with special name bg. Will be treated as a background region (this is usually for hard negative mining).')
 						found_bg = True
 					class_mapping[class_name] = len(class_mapping)
+				# if background is True:
+				# 	found_bg = True
 
 				if filename not in all_imgs:
 					all_imgs[filename] = {}
