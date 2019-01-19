@@ -213,6 +213,7 @@ def named_logs(model, logs):
 
 
 vis = True
+import pdb; pdb.set_trace()
 for epoch_num in range(num_epochs):
 
     progbar = generic_utils.Progbar(epoch_length)
