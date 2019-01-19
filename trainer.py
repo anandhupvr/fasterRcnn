@@ -285,7 +285,7 @@ for epoch_num in range(num_epochs):
 
         losses[iter_num, 2] = loss_class[0]
         losses[iter_num, 3] = loss_class[1]
-        losses[iter_num, 4] = loss_class[2  ]
+        losses[iter_num, 4] = loss_class[2]
 
         iter_num += 1
 
