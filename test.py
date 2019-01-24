@@ -12,8 +12,8 @@ def to_float(box):
 file_annot = open('annotation.txt', 'w+')
 # for i,j in zip(len(os.listdir("dataset/images")),os.listdir("dataset/images")):
 # 	all_items[i] = glob.glob(dataset_path + "images/human/*.jpg")
-# cat = ['mushroom', 'spinach', 'tomato']
-cat = ['human']
+cat = ['mushroom', 'spinach', 'tomato']
+# cat = ['human']
 j = 0
 for i in os.listdir("dataset/images"):
 	all_items.append(glob.glob("dataset/images/"+i + "/*.jpg"))
