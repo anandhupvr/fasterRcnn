@@ -46,7 +46,6 @@ class LOAD:
 				#	|						|
 				#	|						|
 				#	---------------------x2,y2
-				# import pdb; pdb.set_trace()
 				(x1, y1, x2, y2) = line_split[1:5]
 				class_name = line_split[5].replace('\'','').replace(")","").strip()
 				filename = line_split[0].replace('\'','').replace('(','')

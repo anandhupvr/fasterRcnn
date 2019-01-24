@@ -181,7 +181,7 @@ class NET:
 	    elif K.backend() == 'theano':
 	        pooling_regions = 7
 	        input_shape = (num_rois,512,7,7)
-
+	    import pdb; pdb.set_trace()
 	    out_roi_pool = RoiPoolingConv(pooling_regions, num_rois)([base_layers, input_rois])
 
 	    out = TimeDistributed(Flatten(name='flatten'))(out_roi_pool)

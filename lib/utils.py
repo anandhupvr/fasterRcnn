@@ -70,7 +70,6 @@ def calc_iou(R, img_data, C, class_mapping):
 			else:
 				print('roi = {}'.format(best_iou))
 				raise RuntimeError
-		import pdb; pdb.set_trace()
 		class_num = class_mapping[cls_name]
 		class_label = len(class_mapping) * [0]
 		class_label[class_num] = 1

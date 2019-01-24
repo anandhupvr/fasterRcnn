@@ -213,12 +213,11 @@ def named_logs(model, logs):
 
 
 vis = True
-import pdb; pdb.set_trace()
+# import pdb; pdb.set_trace()
 for epoch_num in range(num_epochs):
 
     progbar = generic_utils.Progbar(epoch_length)
     print('Epoch {}/{}'.format(epoch_num + 1, num_epochs))
-
     while True:
 
         if len(rpn_accuracy_rpn_monitor) == epoch_length and C.verbose:
