@@ -1,5 +1,4 @@
-dataset/
-test.py
+dataset/y
 *.h5
 *.pyc
 test_images/
